@@ -2,6 +2,8 @@
 
 Ball catalog API for [Lightning Bowl](https://github.com/HappyKnuckles/lightningbowl), backed by the bowwwl.com REST API.
 
+The bowwwl full-catalog endpoint (`/restapi/balls?_format=json`) is currently broken, so the catalog is assembled from the paged `/restapi/balls/v2` endpoint (fetched in parallel batches until a page adds nothing new) and filtered by weight locally. v2 currently only serves 15 lb balls; other weights fall back to the old endpoint.
+
 Upstream data is fetched once and cached in memory (balls: 1 hour, brands/cores/coverstocks: 1 day). If a refresh fails, the last good copy is served. Filtering, fuzzy search, sorting and paging all happen here, so clients only download the page they show. Responses carry `s-maxage` / `stale-while-revalidate` headers so Vercel's CDN can cache them too.
 
 ```bash
