@@ -1,5 +1,5 @@
 // api/loadBalls.js
-import { withCors, validateInput } from '../middleware.js';
+import { withCors, validateInput } from '../lib/cors.js';
 
 // Whitelist of allowed API endpoints
 const ALLOWED_API_BASE = 'https://bowwwl.com/restapi/balls/v2';

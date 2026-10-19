@@ -1,5 +1,5 @@
 // GET /api/brands — optional: search, sort, page/size.
-import { withCors } from '../middleware.js';
+import { withCors } from '../lib/cors.js';
 import { queryCatalog } from '../lib/catalog.js';
 import { sendJson, withErrorHandling } from '../lib/respond.js';
 import { getBrands } from '../lib/upstream.js';

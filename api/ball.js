@@ -1,6 +1,6 @@
 // GET /api/ball?id=<ballId>[&weight=<lbs>] — one ball, all weight variants
 // unless a weight is given. Responds with an array of variants.
-import { withCors } from '../middleware.js';
+import { withCors } from '../lib/cors.js';
 import { sortItems, parseNumber, parseString, BadRequestError } from '../lib/query.js';
 import { sendJson, withErrorHandling } from '../lib/respond.js';
 import { getAllBalls } from '../lib/upstream.js';
