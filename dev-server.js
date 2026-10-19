@@ -2,23 +2,29 @@ import http from 'node:http';
 import { URL } from 'node:url';
 
 import allBalls from './api/all-balls.js';
+import ball from './api/ball.js';
+import balls from './api/balls.js';
 import ballsPages from './api/balls-pages.js';
 import brands from './api/brands.js';
 import coreBalls from './api/core-balls.js';
 import cores from './api/cores.js';
 import coverstockBalls from './api/coverstock-balls.js';
 import coverstocks from './api/coverstocks.js';
+import similarBalls from './api/similar-balls.js';
 
 const PORT = Number(process.env.PORT || 3002);
 
 const routeHandlers = {
   '/api/all-balls': allBalls,
+  '/api/ball': ball,
+  '/api/balls': balls,
   '/api/balls-pages': ballsPages,
   '/api/brands': brands,
   '/api/core-balls': coreBalls,
   '/api/cores': cores,
   '/api/coverstock-balls': coverstockBalls,
   '/api/coverstocks': coverstocks,
+  '/api/similar-balls': similarBalls,
 };
 
 function setResponseHelpers(res) {
