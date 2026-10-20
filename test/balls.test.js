@@ -88,3 +88,8 @@ test('findSimilarBalls matches core type, coverstock type and tolerances', () =>
   assert.deepEqual(findSimilarBalls(makeBall({ core_rg: 'n/a' }), pool), []);
   assert.equal(findSimilarBalls(base, pool, 1).length, 1);
 });
+
+test('filters by exact ball name, case-insensitively', () => {
+  assert.deepEqual(ids(run({ name: ['phaze ii', 'Jackal Ghost'] })).sort(), ['1-14', '1-15', '4-15']);
+  assert.deepEqual(ids(run({ name: 'phaze' })), []);
+});

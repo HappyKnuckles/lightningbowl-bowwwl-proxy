@@ -38,7 +38,7 @@ Search, filter, sort and page the catalog. Returns a page.
 | --- | --- |
 | `search` (alias `q`) | Fuzzy search over ball, brand, core and coverstock name and factory finish. Comma-separated terms are searched separately. |
 | `weight` | Ball weight in lbs (passed to the upstream API). |
-| `brand`, `core`, `coverstock`, `coverstockType`, `factoryFinish` | Exact (case-insensitive) match, repeatable. |
+| `name`, `brand`, `core`, `coverstock`, `coverstockType`, `factoryFinish` | Exact (case-insensitive) match, repeatable. |
 | `market` | `US` or `Overseas`. |
 | `coreType` | `Symmetric` or `Asymmetric`. |
 | `available` | `true` = only available balls, `false` = only discontinued ones. |
