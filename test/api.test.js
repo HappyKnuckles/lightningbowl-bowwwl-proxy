@@ -68,11 +68,18 @@ test('GET /api/balls returns a page and caching headers', async () => {
   assert.equal(res.headers.vary, 'Origin');
 });
 
-test('GET /api/balls passes weight upstream and caches the catalog', async () => {
-  await call(ballsHandler, { weight: '15' });
-  await call(ballsHandler, { weight: '15', page: '1' });
-  assert.equal(upstreamCalls.length, 1);
-  assert.match(upstreamCalls[0], /weight=15/);
+test('GET /api/balls builds the catalog from v2 pages once and filters by weight locally', async () => {
+  const first = await call(ballsHandler, { weight: '15' });
+  const callsAfterFirst = upstreamCalls.length;
+  const second = await call(ballsHandler, { weight: '14', page: '0' });
+
+  assert.ok(upstreamCalls.every((url) => url.includes('/balls/v2?page=')));
+  assert.equal(upstreamCalls.length, callsAfterFirst, 'second request served from cache');
+  assert.equal(first.body.page.totalElements, 4);
+  assert.deepEqual(
+    second.body.content.map((b) => b.core_weight),
+    ['14'],
+  );
 });
 
 test('GET /api/balls rejects invalid params with 400', async () => {
