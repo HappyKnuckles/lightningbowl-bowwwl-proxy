@@ -1,6 +1,6 @@
 // GET /api/similar-balls?ballId=<id>[&weight=<lbs>][&limit=<n>]
 // Balls with a similar expected reaction to the given ball, newest first.
-import { withCors } from '../middleware.js';
+import { withCors } from '../lib/cors.js';
 import { findSimilarBalls } from '../lib/balls.js';
 import { BadRequestError, parseInteger, parseNumber, parseString } from '../lib/query.js';
 import { sendJson, withErrorHandling } from '../lib/respond.js';

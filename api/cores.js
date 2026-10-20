@@ -1,5 +1,5 @@
 // GET /api/cores — optional: search, brand, sort, page/size.
-import { withCors } from '../middleware.js';
+import { withCors } from '../lib/cors.js';
 import { queryCatalog } from '../lib/catalog.js';
 import { sendJson, withErrorHandling } from '../lib/respond.js';
 import { getCores } from '../lib/upstream.js';

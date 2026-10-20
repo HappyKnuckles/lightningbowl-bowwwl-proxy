@@ -1,5 +1,5 @@
 // GET /api/balls — search, filter, sort and page the ball catalog.
-import { withCors } from '../middleware.js';
+import { withCors } from '../lib/cors.js';
 import { parseBallQuery, queryBalls } from '../lib/balls.js';
 import { sendJson, withErrorHandling } from '../lib/respond.js';
 import { getAllBalls } from '../lib/upstream.js';
