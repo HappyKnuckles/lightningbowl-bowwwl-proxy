@@ -1,15 +1,19 @@
 // Rate limiting store (in-memory)
 const rateLimitStore = new Map();
 
-// Clean up old entries every 5 minutes (unref'd so it never keeps the process alive)
-setInterval(() => {
+// Clean up old entries every 5 minutes.
+// Vercel also loads this root-level file as edge Routing Middleware, where
+// setInterval returns a number, so unref() (which lets Node test runs exit)
+// must be optional.
+const cleanupTimer = setInterval(() => {
   const now = Date.now();
   for (const [key, value] of rateLimitStore.entries()) {
     if (now - value.resetTime > 60000) {
       rateLimitStore.delete(key);
     }
   }
-}, 300000).unref();
+}, 300000);
+cleanupTimer?.unref?.();
 
 // Rate limiting configuration
 const RATE_LIMIT = {
