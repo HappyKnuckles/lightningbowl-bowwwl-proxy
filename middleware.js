@@ -1,7 +1,7 @@
 // Rate limiting store (in-memory)
 const rateLimitStore = new Map();
 
-// Clean up old entries every 5 minutes
+// Clean up old entries every 5 minutes (unref'd so it never keeps the process alive)
 setInterval(() => {
   const now = Date.now();
   for (const [key, value] of rateLimitStore.entries()) {
@@ -9,7 +9,7 @@ setInterval(() => {
       rateLimitStore.delete(key);
     }
   }
-}, 300000);
+}, 300000).unref();
 
 // Rate limiting configuration
 const RATE_LIMIT = {

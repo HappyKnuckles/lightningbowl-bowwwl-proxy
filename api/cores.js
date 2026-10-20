@@ -1,39 +1,22 @@
-// api/loadAllCores.js
+// GET /api/cores — optional: search, brand, sort, page/size.
 import { withCors } from '../middleware.js';
+import { queryCatalog } from '../lib/catalog.js';
+import { sendJson, withErrorHandling } from '../lib/respond.js';
+import { getCores } from '../lib/upstream.js';
 
-// Whitelist of allowed API endpoints
-const ALLOWED_API_URL = 'https://bowwwl.com/restapi/cores';
+const OPTIONS = {
+  searchKeys: ['core_name', 'brand'],
+  sortFields: { core_name: 'string', brand: 'string' },
+  defaultSort: [
+    { field: 'brand', direction: 'asc', kind: 'string' },
+    { field: 'core_name', direction: 'asc', kind: 'string' },
+  ],
+  brandKey: 'brand',
+};
 
 async function handler(req, res) {
-  try {
-    const response = await fetch(ALLOWED_API_URL, {
-      headers: {
-        'User-Agent': 'bowwwl-proxy/1.0',
-      },
-      // Timeout after 10 seconds
-      signal: AbortSignal.timeout(10000),
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch data from target API');
-    }
-
-    const data = await response.json();
-
-    // Validate response is an array
-    if (!Array.isArray(data)) {
-      throw new Error('Invalid response format');
-    }
-
-    res.status(200).json(data);
-  } catch (error) {
-    console.error('API Error:', error.message);
-    if (error.name === 'AbortError') {
-      res.status(504).json({ error: 'Request timeout' });
-    } else {
-      res.status(500).json({ error: 'Failed to load all cores' });
-    }
-  }
+  const items = await getCores();
+  sendJson(res, queryCatalog(items, req.query, OPTIONS), { maxAge: 3600, staleWhileRevalidate: 86400 });
 }
 
-export default withCors(handler);
+export default withCors(withErrorHandling(handler));
